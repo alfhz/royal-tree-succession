@@ -1,0 +1,1 @@
+// Deklarasi fungsi seeder/load data

@@ -1,0 +1,1 @@
+// Inisialisasi data silsilah asli Inggris
