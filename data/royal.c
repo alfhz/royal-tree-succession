@@ -1,85 +1,129 @@
-// Inisialisasi data silsilah asli Inggris
-
-//Hard Code data silsilah keluarga kerjaan inggris
 #include "royal.h"
 
-// Fungsi untuk membuat node baru
-RoyalMember* create_node(int id, char *name, int birth_year, int death_year, char gender, char *title, int birth_order, int eligible) {
-    RoyalMember *node = (RoyalMember*) malloc(sizeof(RoyalMember));
-    if (!node) {
-        printf("gagal alokasi memori\n");
-        return NULL;
-    }
-
-    node->id            = id;
-    node->birth_year    = birth_year;
-    node->death_year    = death_year;
-    node->gender        = gender;
-    node->birth_order   = birth_order;
-    node->eligible      = eligible;
-
-    strncpy(node->name,  name,  MAX_NAME  - 1);
-    strncpy(node->title, title, MAX_TITLE - 1);
-    node->name[MAX_NAME   - 1] = '\0';
-    node->title[MAX_TITLE - 1] = '\0';
-
-    node->fs = NULL;
-    node->nb = NULL;
-    node->pr = NULL;
-
-    return node;
+// Fungsi untuk membuat tree baru
+void Create_tree(Tree *T) {
+    *T = Nil;
 }
 
-void add_child(RoyalMember *parent, RoyalMember *child) {
-    if (!parent || !child) return;
+// Alokasi memori untuk node baru
+address Alokasi(int id, char *name, int birth_year, int death_year, char gender, char *title, int birth_order, int eligible) {
+    address P = (address) malloc(sizeof(RoyalMember));
+    if (P != Nil) {
+        Id(P)          = id;
+        BirthYear(P)   = birth_year;
+        DeathYear(P)   = death_year;
+        Gender(P)      = gender;
+        BirthOrder(P)  = birth_order;
+        Eligible(P)    = eligible;
+        Excluded(P)    = 0; // Inisialisasi default tidak dieksklusi
 
-    child->pr = parent;
+        strncpy(Name(P),  name,  MAX_NAME  - 1);
+        strncpy(Title(P), title, MAX_TITLE - 1);
+        Name(P)[MAX_NAME   - 1] = '\0';
+        Title(P)[MAX_TITLE - 1] = '\0';
 
-    if (parent->fs == NULL) {
-        parent->fs = child;
-        return;
+        FirstSon(P)    = Nil;
+        NextBrother(P) = Nil;
+        Parent(P)      = Nil;
     }
+    return P;
+}
 
-    RoyalMember *curr = parent->fs;
-    RoyalMember *prev = NULL;
+// Cek apakah tree kosong
+int IsEmpty(Tree T) {
+    return (T == Nil);
+}
 
-    while (curr != NULL && curr->birth_order < child->birth_order) {
-        prev = curr;
-        curr = curr->nb;
-    }
-
-    if (prev == NULL) {
-        child->nb = parent->fs;
-        parent->fs = child;
-    } else {
-        child->nb = curr;
-        prev->nb  = child;
+// Fungsi untuk menambahkan child ke parent
+void AddChild(address parent, address child) {
+    if (parent != Nil && child != Nil) {
+        Parent(child) = parent;
+        if (FirstSon(parent) == Nil) {
+            /* Jika parent belum punya anak sama sekali */
+            FirstSon(parent) = child;
+        } else {
+            /* Jika sudah ada anak, tambahkan di ujung sibling */
+            address temp = FirstSon(parent);
+            while (NextBrother(temp) != Nil) {
+                temp = NextBrother(temp);
+            }
+            NextBrother(temp) = child;
+        }
     }
 }
 
-void free_tree(RoyalMember *node) {
-    if (!node) return;
-    free_tree(node->fs);
-    free_tree(node->nb);
-    free(node);
+// Fungsi untuk dealokasi memori tree
+void DeAlokasi(Tree *T) {
+    if (*T != Nil) {
+        DeAlokasi(&(FirstSon(*T)));
+        DeAlokasi(&(NextBrother(*T)));
+        free(*T);
+        *T = Nil;
+    }
 }
 
-void build_tree(RoyalFamilyTree *tree) {
-    if (!tree) return;
-
-    // Membuat node untuk setiap anggota keluarga kerajaan
-    RoyalMember *william = create_node(1, "William I", 1028, 1087, 'M', "King of England", 1, 1);
-    RoyalMember *henry1   = create_node(2, "Henry I", 1068, 1135, 'M', "King of England", 2, 1);
-    RoyalMember *robert   = create_node(3, "Robert Curthose", 1054, 1134, 'M', "Duke of Normandy", 3, 0);
-    RoyalMember *matilda  = create_node(4, "Matilda", 1102, 1167, 'F', "Empress of the Holy Roman Empire", 1, 0);
-    RoyalMember *stephen  = create_node(5, "Stephen", 1092, 1154, 'M', "King of England", 1, 1);
-
-    // Membangun pohon keluarga kerajaan
-    tree->root = william;
-    tree->size = 5;
-
-    add_child(william, henry1);
-    add_child(william, robert);
-    add_child(henry1, matilda);
-    add_child(henry1, stephen);
+// Fungsi untuk membangun tree keluarga kerajaan dengan data hardcoded
+void BuildTree(RoyalFamilyTree *tree) {
+ 
+    /* ── Generasi 0: Root ── */
+    address elizabeth = Alokasi(1,  "Queen Elizabeth II", 1926, 2022, 'F', "Queen",    0, 1);
+ 
+    /* ── Generasi 1: Anak Elizabeth II ── */
+    address charles  = Alokasi(2,  "King Charles III",   1948, 0, 'M', "King",     1, 1);
+    address anne     = Alokasi(3,  "Princess Anne",      1950, 0, 'F', "Princess", 2, 1);
+    address andrew   = Alokasi(4,  "Prince Andrew",      1960, 0, 'M', "Prince",   3, 1);
+    address edward   = Alokasi(5,  "Prince Edward",      1964, 0, 'M', "Prince",   4, 1);
+ 
+    /* ── Generasi 2: anak Charles ── */
+    address william  = Alokasi(6,  "Prince William",     1982, 0, 'M', "Prince",   1, 1);
+    address harry    = Alokasi(7,  "Prince Harry",       1984, 0, 'M', "Prince",   2, 1);
+ 
+    /* ── Generasi 2: anak Anne ── */
+    address peter    = Alokasi(8,  "Peter Phillips",     1977, 0, 'M', "Mr",       1, 1);
+    address zara     = Alokasi(9,  "Zara Tindall",       1981, 0, 'F', "Mrs",      2, 1);
+ 
+    /* ── Generasi 2: anak Andrew ── */
+    address beatrice = Alokasi(10, "Princess Beatrice",  1988, 0, 'F', "Princess", 1, 1);
+    address eugenie  = Alokasi(11, "Princess Eugenie",   1990, 0, 'F', "Princess", 2, 1);
+ 
+    /* ── Generasi 2: anak Edward ── */
+    address louise   = Alokasi(12, "Lady Louise Windsor",   2003, 0, 'F', "Lady", 1, 1);
+    address james    = Alokasi(13, "James Viscount Severn", 2007, 0, 'M', "Mr",   2, 1);
+ 
+    /* ── Generasi 3: anak William ── */
+    address george    = Alokasi(14, "Prince George",      2013, 0, 'M', "Prince",   1, 1);
+    address charlotte = Alokasi(15, "Princess Charlotte", 2015, 0, 'F', "Princess", 2, 1);
+    address louis     = Alokasi(16, "Prince Louis",       2018, 0, 'M', "Prince",   3, 1);
+ 
+    /* ── Generasi 3: anak Harry ── */
+    address archie   = Alokasi(17, "Archie Mountbatten-Windsor",  2019, 0, 'M', "Mr", 1, 1);
+    address lilibet  = Alokasi(18, "Lilibet Mountbatten-Windsor", 2021, 0, 'F', "Ms", 2, 1);
+ 
+    /* ── Susun hubungan parent-child ── */
+    AddChild(elizabeth, charles);
+    AddChild(elizabeth, anne);
+    AddChild(elizabeth, andrew);
+    AddChild(elizabeth, edward);
+ 
+    AddChild(charles, william);
+    AddChild(charles, harry);
+ 
+    AddChild(anne, peter);
+    AddChild(anne, zara);
+ 
+    AddChild(andrew, beatrice);
+    AddChild(andrew, eugenie);
+ 
+    AddChild(edward, louise);
+    AddChild(edward, james);
+ 
+    AddChild(william, george);
+    AddChild(william, charlotte);
+    AddChild(william, louis);
+ 
+    AddChild(harry, archie);
+    AddChild(harry, lilibet);
+ 
+    tree->root = elizabeth;
+    tree->size = 18;
 }
