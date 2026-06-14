@@ -5,7 +5,6 @@ int main() {
     Create_tree(&tree.root);
     BuildTree(&tree);
 
-    PrintTree(tree.root);
     int pilihan;
 
     do {
@@ -20,6 +19,7 @@ int main() {
         printf("  [5] Simulasi Eksklusi Garis Keturunan\n");
         printf("  [0] Keluar\n");
         printf("============================================\n");
+        printf("[!] catatan: program hanya mencangkup data dari Queen Elizabeth II sebagai leluhur utama.\n");
         printf("Pilih menu: ");
         scanf("%d", &pilihan);
         getchar();
