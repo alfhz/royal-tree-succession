@@ -1,4 +1,5 @@
 #include "nbtRoyal.h"
+#include <ctype.h>
 
 // Menampilkan tree secara pre-order (Root -> First Son -> Next Brother)
 void PreOrder(Tree T) {
@@ -48,7 +49,7 @@ void LevelOrder(Tree T) {
     }
 }
 
-// Menampilkan informasi detail struktur node dan hubungannya secara rekursif
+// Menampilkan informasi detail struktur node
 void PrintTree(Tree T) {
     if (IsEmpty(T)) return;
 
@@ -72,17 +73,26 @@ void PrintTree(Tree T) {
         printf("Orang Tua   : [Leluhur Utama]\n");
         
     printf("========================================\n\n");
-
-    PrintTree(FirstSon(T));
-    PrintTree(NextBrother(T));
 }
 
-// Mencari node anggota kerajaan berdasarkan nama
+// Helper untuk membandingkan string tanpa mempedulikan huruf besar/kecil
+int IsEqualIgnoreCase(const char *str1, const char *str2) {
+    while (*str1 && *str2) {
+        if (tolower((unsigned char)*str1) != tolower((unsigned char)*str2)) {
+            return 0;
+        }
+        str1++;
+        str2++;
+    }
+    return (*str1 == '\0' && *str2 == '\0');
+}
+
+// Modul Pencarian Nama yang sudah Case-Insensitive
 address SearchByName(Tree T, char *target_name) {
     if (IsEmpty(T)) return Nil;
-    
-    if (strcmp(Name(T), target_name) == 0) return T;
-    
+
+    if (IsEqualIgnoreCase(Name(T), target_name)) return T;
+
     address found = SearchByName(FirstSon(T), target_name);
     if (found != Nil) return found;
     
@@ -142,9 +152,40 @@ int Depth(Tree T) {
     return Max(1 + Depth(FirstSon(T)), Depth(NextBrother(T)));
 }
 
+// Helper Menu 3: Traversal khusus mencari posisi ke-N di garis suksesi
+address CariUrutan(Tree node, int target_N, int *counter) {
+    if (IsEmpty(node)) {
+        return Nil;
+    }
+
+    // Cek kelayakan suksesi
+    if (Eligible(node) == 1 && DeathYear(node) == 0 && Excluded(node) == 0) {
+        *counter = *counter + 1;
+        if (*counter == target_N) {
+            return node;
+        }
+    }
+
+    address hasil = Nil;
+    
+    // Telusuri first_child jika cabang ini tidak dieksklusi
+    if (Excluded(node) == 0) {
+        hasil = CariUrutan(FirstSon(node), target_N, counter);
+    }
+    
+    if (hasil != Nil) {
+        return hasil;
+    }
+
+    // Telusuri next_sibling
+    return CariUrutan(NextBrother(node), target_N, counter);
+}
+
+
 /*
 Prosedur Menu-Menu
 */
+
 void MenuSuksesi(Tree T) {
     printf("tes\n");
 }
@@ -153,12 +194,94 @@ void MenuGenerasi(Tree T) {
     printf("tes\n");
 }
 
+// Implementasi Menu
 void MenuCari(Tree T) {
-    printf("tes\n");
+    int pilihan;
+    printf("Pilih metode pencarian:\n");
+    printf("1. Berdasarkan Nama\n");
+    printf("2. Berdasarkan Nomor Urut Suksesi\n");
+    printf("Pilihan: ");
+    
+    // Validasi input angka
+    if (scanf("%d", &pilihan) != 1) {
+        printf("\n[!] Input tidak valid. Masukkan angka.\n");
+        while (getchar() != '\n');
+        return;
+    }
+    while (getchar() != '\n');
+
+    // Cari berdasarkan nama
+    if (pilihan == 1) {
+        char keyword[MAX_NAME];
+        printf("Masukkan nama anggota kerajaan: ");
+        
+        // Input nama
+        if (fgets(keyword, sizeof(keyword), stdin) != NULL) {
+            keyword[strcspn(keyword, "\n")] = 0;
+            
+            address hasil = SearchByName(T, keyword);
+            
+            if (hasil != Nil) {
+                printf("\n[!] Ditemukan\n");
+                PrintTree(hasil);
+            } else {
+                printf("\n[!] Anggota tidak ditemukan\n");
+            }
+        }
+    }
+    // Cari berdasarkan nomor urut suksesi
+    else if (pilihan == 2) {
+        int target_N;
+        int counter = 0;
+        
+        // Input nomor urut suksesi
+        printf("Masukkan angka urutan: ");
+        if (scanf("%d", &target_N) != 1) {
+            printf("\n[!] Input tidak valid.\n");
+            while (getchar() != '\n');
+            return;
+        }
+        while (getchar() != '\n');
+        
+        address hasil = CariUrutan(T, target_N, &counter);
+        
+        if (hasil != Nil) {
+            printf("\n[!] Ditemukan\n");
+            printf("Posisi ke-%d adalah %s %s\n", target_N, Title(hasil), Name(hasil));
+            printf("Detail informasi:\n");
+            PrintTree(hasil);
+        } else {
+            printf("\n[!] Posisi ke-%d tidak ditemukan\n", target_N);
+        }
+    } else {
+        printf("\n[!] Pilihan menu tidak tersedia.\n");
+    }
 }
 
+// Implementasi Menu 4
 void MenuHitungKeturunan(Tree T) {
-    printf("tes\n");
+    char nama[MAX_NAME];
+    printf("Masukkan nama anggota kerajaan: ");
+    
+    // Input nama dengan validasi
+    if (fgets(nama, sizeof(nama), stdin) != NULL) {
+        nama[strcspn(nama, "\n")] = 0; 
+        
+        address target = SearchByName(T, nama);
+        
+        if (target == Nil) {
+            printf("\n[!] Anggota tidak ditemukan\n");
+            return; 
+        }
+        
+        int total = NbKeturunan(target);
+        printf("\n%s memiliki %d keturunan.\n", Name(target), total);
+        
+        if (total > 0) {
+            printf("Daftar keturunan:\n");
+            PreOrder(FirstSon(target)); 
+        }
+    }
 }
 
 void MenuSimulasiEksklusi(Tree T) {
