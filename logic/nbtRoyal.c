@@ -56,7 +56,19 @@ void PrintTree(Tree T) {
     printf("========================================\n");
     printf("ID          : %d\n", Id(T));
     printf("Nama        : %s %s\n", Title(T), Name(T));
-    
+    printf("Tahun Lahir : %d\n", BirthYear(T));
+    if (DeathYear(T) != 0) {
+        printf("Tahun Wafat : %d\n", DeathYear(T));
+    } else {
+        printf("Tahun Wafat : [Masih Hidup]\n");
+    }
+    if (Gender(T) == 'M') {
+        printf("Jenis Kelamin: Laki-laki\n");
+    } else if (Gender(T) == 'F') {
+        printf("Jenis Kelamin: Perempuan\n");
+    }
+    printf("Urutan Lahir : %d\n", BirthOrder(T));
+    printf("Kelayakan Suksesi: %s\n", Eligible(T) ? "Layak" : "Tidak Layak");
     if (FirstSon(T) != Nil)
         printf("Anak Sulung : %s\n", Name(FirstSon(T)));
     else
