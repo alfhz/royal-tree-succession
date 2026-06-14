@@ -1,1 +1,0 @@
-// Deklarasi class Tree, Insert, fungsi Traversal
