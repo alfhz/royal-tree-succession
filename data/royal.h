@@ -42,10 +42,12 @@ typedef struct RoyalMember {
     address pr;
 } RoyalMember;
 
+// Struktur untuk menyimpan informasi tentang pohon keluarga kerajaan
 typedef struct {
     RoyalMember *root;
     int size;
 } RoyalFamilyTree;
+
 
 // Fungsi untuk membuat tree baru
 void Create_tree(Tree *T);

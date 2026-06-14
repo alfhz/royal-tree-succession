@@ -41,3 +41,4 @@ int main() {
     DeAlokasi(&tree.root);
     return 0;
 }
+
