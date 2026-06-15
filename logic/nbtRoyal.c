@@ -193,6 +193,23 @@ address CariUrutan(Tree node, int target_N, int *counter) {
     return CariUrutan(NextBrother(node), target_N, counter);
 }
 
+void TampilkanSuksesi(Tree T, int *pos){
+    if(IsEmpty(T)) return;
+    if(Eligible(T) == 1 && DeathYear(T) == 0 && Excluded(T) == 0){
+        (*pos)++;
+        printf("Posisi ke-%d: %s %s\n", *pos, Title(T), Name(T));
+    }
+    if(Excluded(T) == 0){
+        TampilkanSuksesi(FirstSon(T), pos);
+    }
+    TampilkanSuksesi(NextBrother(T),pos);
+}
+void ResetEkslusi(Tree T){
+    if(IsEmpty(T)) return;
+    Excluded(T) = 0;
+    ResetEkslusi(FirstSon(T));
+    ResetEkslusi(NextBrother(T));
+}
 
 /*
 Prosedur Menu-Menu
@@ -311,21 +328,7 @@ void MenuSimulasiEksklusi(Tree T) {
     printf("\n Simulasi Ekslusi: %s %s & seluruh keturunannya\n\n", Title(target), Name(target));
     Excluded(target) = 1;
     int pos = 0;
-}
-void TampilkanSuksesi(Tree T, int *pos){
-    if(IsEmpty(T)) return;
-    if(Eligible(T) == 1 && DeathYear(T) == 0 && Excluded(T) == 0){
-        (*pos)++;
-        printf("Posisi ke-%d: %s %s\n", *pos, Title(T), Name(T));
-    }
-    if(Excluded(T) == 0){
-        TampilkanSuksesi(FirstSon(T), pos);
-    }
-    TampilkanSuksesi(NextBrother(T),pos);
-}
-void ResetEkslusi(Tree T){
-    if(IsEmpty(T)) return;
-    Excluded(T) = 0;
-    ResetEkslusi(FirstSon(T));
-    ResetEkslusi(NextBrother(T));
+    TampilkanSuksesi(T, &pos);
+    ResetEkslusi(T);
+    printf("\n Simulasi selesai. Garis suksesi kembali normal.\n");
 }
