@@ -322,3 +322,6 @@ void TampilkanSuksesi(Tree T, int *pos){
     }
     TampilkanSuksesi(NextBrother(T),pos);
 }
+void ResetEkslusi(Tree T){
+    printf("tes");
+}
