@@ -311,3 +311,6 @@ void MenuSimulasiEksklusi(Tree T) {
     Excluded(target) = 1;
     int pos = 0;
 }
+void TampilkanSuksesi(Tree T, int *pos){
+    printf("test");
+}
