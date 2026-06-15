@@ -323,5 +323,8 @@ void TampilkanSuksesi(Tree T, int *pos){
     TampilkanSuksesi(NextBrother(T),pos);
 }
 void ResetEkslusi(Tree T){
-    printf("tes");
+    if(IsEmpty(T)) return;
+    Excluded(T) = 0;
+    ResetEkslusi(FirstSon(T));
+    ResetEkslusi(NextBrother(T));
 }
