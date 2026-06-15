@@ -297,5 +297,9 @@ void MenuHitungKeturunan(Tree T) {
 }
 
 void MenuSimulasiEksklusi(Tree T) {
-    printf("tes\n");
+    char nama[MAX_NAME];
+    printf("Masukkan nama anggota kerajaan yang akan dieksklusi: ");
+    if(fgets(nama,sizeof(nama),stdin)!= Nil) return;
+    nama[strcspn(nama, "\n")] = 0;
+    address target = SearchByName(T, nama);
 }
