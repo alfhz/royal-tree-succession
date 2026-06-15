@@ -199,7 +199,8 @@ Prosedur Menu-Menu
 */
 
 void MenuSuksesi(Tree T) {
-    printf("tes\n");
+    int pos = 0;
+    TampilkanSuksesi(T, &pos);
 }
 
 void MenuGenerasi(Tree T) {
