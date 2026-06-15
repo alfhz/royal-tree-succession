@@ -301,5 +301,13 @@ void MenuSimulasiEksklusi(Tree T) {
     printf("Masukkan nama anggota kerajaan yang akan dieksklusi: ");
     if(fgets(nama,sizeof(nama),stdin)!= Nil) return;
     nama[strcspn(nama, "\n")] = 0;
+
     address target = SearchByName(T, nama);
+    if (target == Nil){
+        printf("\n Anggota tidak ditemukan\n");
+        return;
+    }
+    printf("\n Simulasi Ekslusi: %s %s & seluruh keturunannya\n\n", Title(target), Name(target));
+    Excluded(target) = 1;
+    int pos = 0;
 }
