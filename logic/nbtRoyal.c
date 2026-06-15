@@ -312,5 +312,13 @@ void MenuSimulasiEksklusi(Tree T) {
     int pos = 0;
 }
 void TampilkanSuksesi(Tree T, int *pos){
-    printf("test");
+    if(IsEmpty(T)) return;
+    if(Eligible(T) == 1 && DeathYear(T) == 0 && Excluded(T) == 0){
+        (*pos)++;
+        printf("Posisi ke-%d: %s %s\n", *pos, Title(T), Name(T));
+    }
+    if(Excluded(T) == 0){
+        TampilkanSuksesi(FirstSon(T), pos);
+    }
+    TampilkanSuksesi(NextBrother(T),pos);
 }
