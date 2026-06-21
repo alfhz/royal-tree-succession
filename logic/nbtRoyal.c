@@ -198,8 +198,23 @@ address CariUrutan(Tree node, int target_N, int *counter) {
 Prosedur Menu-Menu
 */
 
+// Print urutan suksesi
 void MenuSuksesi(Tree T) {
-    printf("tes\n");
+    printf("\n=== Garis Urutan Suksesi Kerajaan Inggris ===\n");
+    printf("Urutan Suksesi : \n");
+    int counter;
+    for (int i = 1; i <= NbElmt(T); i++) {
+        counter = 0; // RESET counter ke 0 di sini setiap kali iterasi baru
+        
+        address hasil = CariUrutan(T, i, &counter);
+        
+        if (hasil != Nil) {
+            printf("%d. %s %s\n", i, Title(hasil), Name(hasil));
+        } else {
+            break; 
+        }
+    }
+
 }
 
 void MenuGenerasi(Tree T) {
