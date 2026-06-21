@@ -210,8 +210,7 @@ void MenuSuksesi(Tree T) {
     printf("Urutan Suksesi : \n");
     int counter;
     for (int i = 1; i <= NbElmt(T); i++) {
-        counter = 0; // RESET counter ke 0 di sini setiap kali iterasi baru
-        
+        counter = 0; 
         address hasil = CariUrutan(T, i, &counter);
         
         if (hasil != Nil) {
@@ -220,7 +219,6 @@ void MenuSuksesi(Tree T) {
             break; 
         }
     }
-
 }
 
 void MenuGenerasi(Tree T) {
