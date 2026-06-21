@@ -31,21 +31,27 @@ void InOrder(Tree T) {
 // Menampilkan tree berdasarkan level atau generasi menggunakan antrian array inline
 void LevelOrder(Tree T) {
     if (IsEmpty(T)) return;
-    
     address queue[100];
     int front = 0, rear = 0;
-    
     queue[rear++] = T;
-    
+    int generasi = 1; 
     while (front < rear) {
-        address current = queue[front++];
-        printf("- %s (%s)\n", Name(current), Title(current));
+        int jumlahOrangDiGenerasiIni = rear - front;
         
-        address child = FirstSon(current);
-        while (child != Nil) {
-            queue[rear++] = child;
-            child = NextBrother(child);
+        printf("\n[Generasi %d]\n", generasi);
+        
+        while (jumlahOrangDiGenerasiIni > 0) {
+            address current = queue[front++];
+            printf("- %s %s\n", Title(current), Name(current));
+
+            address child = FirstSon(current);
+            while (child != Nil) {
+                queue[rear++] = child;
+                child = NextBrother(child);
+            }
+            jumlahOrangDiGenerasiIni--;
         }
+        generasi++;
     }
 }
 
@@ -215,13 +221,27 @@ void ResetEkslusi(Tree T){
 Prosedur Menu-Menu
 */
 
+// Print urutan suksesi
 void MenuSuksesi(Tree T) {
-    int pos = 0;
-    TampilkanSuksesi(T, &pos);
+    printf("\n=== Garis Urutan Suksesi Kerajaan Inggris ===\n");
+    printf("Urutan Suksesi : \n");
+    int counter;
+    for (int i = 1; i <= NbElmt(T); i++) {
+        counter = 0; 
+        address hasil = CariUrutan(T, i, &counter);
+        
+        if (hasil != Nil) {
+            printf("%d. %s %s\n", i, Title(hasil), Name(hasil));
+        } else {
+            break; 
+        }
+    }
 }
 
 void MenuGenerasi(Tree T) {
-    printf("tes\n");
+    printf("\n=== Silsilah Kerajaan Inggris per Generasi ===\n");
+    printf("Silsilah per Generasi : \n");
+    LevelOrder(T);
 }
 
 // Implementasi Menu

@@ -64,66 +64,96 @@ void DeAlokasi(Tree *T) {
 
 // Fungsi untuk membangun tree keluarga kerajaan dengan data hardcoded
 void BuildTree(RoyalFamilyTree *tree) {
- 
-    /* ── Generasi 0: Root ── */
-    address elizabeth = Alokasi(1,  "Queen Elizabeth II", 1926, 2022, 'F', "Queen",    0, 1);
- 
-    /* ── Generasi 1: Anak Elizabeth II ── */
-    address charles  = Alokasi(2,  "King Charles III",   1948, 0, 'M', "King",     1, 1);
-    address anne     = Alokasi(3,  "Princess Anne",      1950, 0, 'F', "Princess", 2, 1);
-    address andrew   = Alokasi(4,  "Prince Andrew",      1960, 0, 'M', "Prince",   3, 1);
-    address edward   = Alokasi(5,  "Prince Edward",      1964, 0, 'M', "Prince",   4, 1);
- 
-    /* ── Generasi 2: anak Charles ── */
-    address william  = Alokasi(6,  "Prince William",     1982, 0, 'M', "Prince",   1, 1);
-    address harry    = Alokasi(7,  "Prince Harry",       1984, 0, 'M', "Prince",   2, 1);
- 
-    /* ── Generasi 2: anak Anne ── */
-    address peter    = Alokasi(8,  "Peter Phillips",     1977, 0, 'M', "Mr",       1, 1);
-    address zara     = Alokasi(9,  "Zara Tindall",       1981, 0, 'F', "Mrs",      2, 1);
- 
-    /* ── Generasi 2: anak Andrew ── */
-    address beatrice = Alokasi(10, "Princess Beatrice",  1988, 0, 'F', "Princess", 1, 1);
-    address eugenie  = Alokasi(11, "Princess Eugenie",   1990, 0, 'F', "Princess", 2, 1);
- 
-    /* ── Generasi 2: anak Edward ── */
-    address louise   = Alokasi(12, "Lady Louise Windsor",   2003, 0, 'F', "Lady", 1, 1);
-    address james    = Alokasi(13, "James Viscount Severn", 2007, 0, 'M', "Mr",   2, 1);
- 
-    /* ── Generasi 3: anak William ── */
-    address george    = Alokasi(14, "Prince George",      2013, 0, 'M', "Prince",   1, 1);
-    address charlotte = Alokasi(15, "Princess Charlotte", 2015, 0, 'F', "Princess", 2, 1);
-    address louis     = Alokasi(16, "Prince Louis",       2018, 0, 'M', "Prince",   3, 1);
- 
-    /* ── Generasi 3: anak Harry ── */
-    address archie   = Alokasi(17, "Archie Mountbatten-Windsor",  2019, 0, 'M', "Mr", 1, 1);
-    address lilibet  = Alokasi(18, "Lilibet Mountbatten-Windsor", 2021, 0, 'F', "Ms", 2, 1);
- 
-    /* ── Susun hubungan parent-child ── */
+    /* ── 1. Root ── */
+    address elizabeth = Alokasi(1, "Elizabeth Alexandra Mary", 1926, 2022, 'F', "Queen", 1, 0);
+
+    /* ── 2. Garis Keturunan Charles (Kiri Pertama) ── */
+    address charles   = Alokasi(2, "Charles Philip Arthur George", 1948, 0, 'M', "King", 1, 0); 
+    
+    address william   = Alokasi(3, "William Arthur Philip Louis", 1982, 0, 'M', "Prince of Wales", 1, 1);
+    address george    = Alokasi(4, "George Alexander Louis", 2013, 0, 'M', "Prince", 1, 1);
+    address charlotte = Alokasi(5, "Charlotte Elizabeth Diana", 2015, 0, 'F', "Princess", 2, 1);
+    address louis     = Alokasi(6, "Louis Arthur Charles", 2018, 0, 'M', "Prince", 3, 1);
+    
+    address harry     = Alokasi(7, "Henry Charles Albert David", 1984, 0, 'M', "Duke of Sussex", 2, 0);
+    address archie    = Alokasi(8, "Archie Harrison", 2019, 0, 'M', "Prince", 1, 0);
+    address lilibet   = Alokasi(9, "Lilibet Diana", 2021, 0, 'F', "Princess", 2, 0);
+
+    /* ── 3. Garis Keturunan Anne (Kiri Kedua) ── */
+    address anne      = Alokasi(10, "Anne Elizabeth Alice Louise", 1950, 0, 'F', "Princess Royal", 2, 1);
+    
+    address peter     = Alokasi(11, "Peter Mark Andrew Phillips", 1977, 0, 'M', "Mr", 1, 1);
+    address savannah  = Alokasi(12, "Savannah Phillips", 2010, 0, 'F', "Miss", 1, 1);
+    address isla      = Alokasi(13, "Isla Phillips", 2012, 0, 'F', "Miss", 2, 1);
+    
+    address zara      = Alokasi(14, "Zara Anne Elizabeth Phillips", 1981, 0, 'F', "Mrs", 2, 1);
+    address mia       = Alokasi(15, "Mia Grace Tindall", 2014, 0, 'F', "Miss", 1, 1);
+    address lena      = Alokasi(16, "Lena Elizabeth Tindall", 2018, 0, 'F', "Miss", 2, 1);
+    address lucas     = Alokasi(17, "Lucas Tindall", 2021, 0, 'M', "Master", 3, 1);
+
+    /* ── 4. Garis Keturunan Andrew (Kiri Ketiga) ── */
+    address andrew    = Alokasi(18, "Andrew Albert Christian Edward", 1960, 0, 'M', "Duke of York", 3, 1);
+    
+    address beatrice  = Alokasi(19, "Beatrice Elizabeth Mary Windsor", 1988, 0, 'F', "Princess", 1, 1);
+    address sienna    = Alokasi(20, "Sienna Elizabeth Mapelli Mozzi", 2021, 0, 'F', "Miss", 1, 1);
+    
+    address eugenie   = Alokasi(21, "Eugenie Victoria Helena Windsor", 1990, 0, 'F', "Princess", 2, 1);
+    address august    = Alokasi(22, "August Philip Hawke Brooksbank", 2021, 0, 'M', "Master", 1, 1);
+
+    /* ── 5. Garis Keturunan Edward (Paling Kanan) ── */
+    address edward    = Alokasi(23, "Edward Antony Richard Louis", 1964, 0, 'M', "Duke of Edinburgh", 4, 1);
+    
+    // Berdasarkan gambarmu, Louise ditaruh di kiri, James di kanan
+    address louise    = Alokasi(24, "Louise Alice Mountbatten-Windsor", 2003, 0, 'F', "Lady", 1, 1);
+    address james     = Alokasi(25, "James Alexander Mountbatten-Windsor", 2007, 0, 'M', "Viscount", 2, 1);
+
+
+    /* ── Susun Hubungan (Wajib Urut Kiri ke Kanan) ── */
+    
+    // Anak Elizabeth II
     AddChild(elizabeth, charles);
     AddChild(elizabeth, anne);
     AddChild(elizabeth, andrew);
     AddChild(elizabeth, edward);
- 
+
+    // Anak Charles
     AddChild(charles, william);
     AddChild(charles, harry);
- 
-    AddChild(anne, peter);
-    AddChild(anne, zara);
- 
-    AddChild(andrew, beatrice);
-    AddChild(andrew, eugenie);
- 
-    AddChild(edward, louise);
-    AddChild(edward, james);
- 
+
+    // Anak William
     AddChild(william, george);
     AddChild(william, charlotte);
     AddChild(william, louis);
- 
+
+    // Anak Harry
     AddChild(harry, archie);
     AddChild(harry, lilibet);
- 
+
+    // Anak Anne
+    AddChild(anne, peter);
+    AddChild(anne, zara);
+
+    // Anak Peter
+    AddChild(peter, savannah);
+    AddChild(peter, isla);
+
+    // Anak Zara
+    AddChild(zara, mia);
+    AddChild(zara, lena);
+    AddChild(zara, lucas);
+
+    // Anak Andrew
+    AddChild(andrew, beatrice);
+    AddChild(andrew, eugenie);
+
+    // Anak Beatrice & Eugenie
+    AddChild(beatrice, sienna);
+    AddChild(eugenie, august);
+
+    // Anak Edward
+    AddChild(edward, louise);
+    AddChild(edward, james);
+
     tree->root = elizabeth;
-    tree->size = 18;
+    tree->size = 25;
 }

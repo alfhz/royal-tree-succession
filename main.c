@@ -1,4 +1,5 @@
 #include "logic/nbtRoyal.h"
+#include <conio.h>
 
 int main() {
     RoyalFamilyTree tree;
@@ -27,8 +28,14 @@ int main() {
         printf("\n");
 
         switch (pilihan) {
-            case 1: MenuSuksesi(tree.root); break;
-            case 2: MenuGenerasi(tree.root); break;
+            case 1: MenuSuksesi(tree.root); 
+            printf("\nTekan tombol apapun untuk kembali ke menu utama...");
+            getch();
+            break;
+            case 2: MenuGenerasi(tree.root); 
+            printf("\nTekan tombol apapun untuk kembali ke menu utama...");
+            getch();
+            break;
             case 3: MenuCari(tree.root); break;
             case 4: MenuHitungKeturunan(tree.root); break;
             case 5: MenuSimulasiEksklusi(tree.root); break;
