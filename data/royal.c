@@ -75,7 +75,7 @@ void BuildTree(RoyalFamilyTree *tree) {
     address charlotte = Alokasi(5, "Charlotte Elizabeth Diana", 2015, 0, 'F', "Princess", 2, 1);
     address louis     = Alokasi(6, "Louis Arthur Charles", 2018, 0, 'M', "Prince", 3, 1);
     
-    address harry     = Alokasi(7, "Henry Charles Albert David", 1984, 0, 'M', "Duke of Sussex", 2, 0);
+    address henry     = Alokasi(7, "Henry Charles Albert David", 1984, 0, 'M', "Duke of Sussex", 2, 0);
     address archie    = Alokasi(8, "Archie Harrison", 2019, 0, 'M', "Prince", 1, 0);
     address lilibet   = Alokasi(9, "Lilibet Diana", 2021, 0, 'F', "Princess", 2, 0);
 
@@ -118,16 +118,16 @@ void BuildTree(RoyalFamilyTree *tree) {
 
     // Anak Charles
     AddChild(charles, william);
-    AddChild(charles, harry);
+    AddChild(charles, henry);
 
     // Anak William
     AddChild(william, george);
     AddChild(william, charlotte);
     AddChild(william, louis);
 
-    // Anak Harry
-    AddChild(harry, archie);
-    AddChild(harry, lilibet);
+    // Anak henry
+    AddChild(henry, archie);
+    AddChild(henry, lilibet);
 
     // Anak Anne
     AddChild(anne, peter);
