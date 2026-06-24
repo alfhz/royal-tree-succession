@@ -60,7 +60,6 @@ void PrintTree(Tree T) {
     if (IsEmpty(T)) return;
 
     printf("========================================\n");
-    printf("ID          : %d\n", Id(T));
     printf("Nama        : %s %s\n", Title(T), Name(T));
     printf("Tahun Lahir : %d\n", BirthYear(T));
     if (DeathYear(T) != 0) {
